@@ -1,0 +1,13 @@
+diff --git a/templates/linux_user_environment.erb b/templates/linux_user_environment.erb
+index 1b290fd..37ed99f 100755
+--- a/templates/linux_user_environment.erb
++++ b/templates/linux_user_environment.erb
+@@ -31,7 +31,7 @@ export PATH=.:$ORACLE_HOME/bin:$ORACLE_HOME/OPatch:$ORACLE_HOME/perl/bin:$PATH
+ <% if @tuxedo_home_dir -%>
+ TUXDIR=<%= @tuxedo_home_dir %>
+ if [ -d $TUXDIR ]; then
+-  export TUXDIR=$TUXDIR/tuxedo12.2.2.0.0
++  export TUXDIR=$TUXDIR/tuxedo12.1.3.0.0
+   export PATH=$TUXDIR/bin:$PATH
+   export LD_LIBRARY_PATH=$TUXDIR/bin:$TUXDIR/lib:$LD_LIBRARY_PATH
+ fi

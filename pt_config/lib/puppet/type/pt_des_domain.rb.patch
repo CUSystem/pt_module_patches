@@ -1,0 +1,42 @@
+diff --git a/lib/puppet/type/pt_des_domain.rb b/lib/puppet/type/pt_des_domain.rb
+index 736dce2..270f40a 100755
+--- a/lib/puppet/type/pt_des_domain.rb
++++ b/lib/puppet/type/pt_des_domain.rb
+@@ -12,7 +12,7 @@
+ #  The information contained herein is subject to change without
+ #  notice and is not warranted to be error-free. If you find any
+ #  errors, please report them to us in writing.
+-#  
++#
+ #  Copyright (C) 1988, 2017, Oracle and/or its affiliates.
+ #  All Rights Reserved.
+ # ***************************************************************
+@@ -66,20 +66,6 @@ module Puppet
+     newparam(:db_type) do
+       desc "Indicates the database type. Valid values are ORACLE,
+         INFORMIX, SYBASE, MICROSFT, DB2ODBC, and DB2UNIX. "
+-
+-      defaultto :ORACLE
+-
+-      newvalues(:ORACLE, :INFORMIX, :SYBASE, :MICROSFT, :DB2ODBC, :DB2UNIX)
+-
+-      validate do |value|
+-        # validate the database type
+-        supported_db_list = [ :ORACLE, :INFORMIX, :SYBASE, :MICROSFT,
+-                              :DB2ODBC, :DB2UNIX ]
+-        if ! supported_db_list.include?(value)
+-          fail("Specified db type '#{db_type}' is not one of supported " + \
+-               "supported databases #{supported_db_list.inspect}")
+-        end
+-      end
+     end
+ 
+     newparam(:db_host) do
+@@ -117,6 +103,7 @@ module Puppet
+     end
+ 
+     parameter :domain_name
++    parameter :os_user
+     parameter :os_user_group
+     parameter :ps_home_dir
+     parameter :ps_app_home_dir

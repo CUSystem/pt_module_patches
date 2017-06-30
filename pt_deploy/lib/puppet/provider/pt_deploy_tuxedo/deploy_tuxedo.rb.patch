@@ -1,0 +1,13 @@
+diff --git a/lib/puppet/provider/pt_deploy_tuxedo/deploy_tuxedo.rb b/lib/puppet/provider/pt_deploy_tuxedo/deploy_tuxedo.rb
+index 693f506..cff74ee 100755
+--- a/lib/puppet/provider/pt_deploy_tuxedo/deploy_tuxedo.rb
++++ b/lib/puppet/provider/pt_deploy_tuxedo/deploy_tuxedo.rb
+@@ -127,7 +127,7 @@ Puppet::Type.type(:pt_deploy_tuxedo).provide :deploy_tuxedo,
+       group_id = Etc.getgrnam(deploy_group).gid
+       FileUtils.chown(user_id, group_id, oracle_base)
+ 
+-      cmd_prefix = "su - #{deploy_user} -c \""
++      cmd_prefix = "su #{deploy_user} -c \""
+       clone_cmd = 'runInstaller'
+       cmd_suffix = "\""
+ 

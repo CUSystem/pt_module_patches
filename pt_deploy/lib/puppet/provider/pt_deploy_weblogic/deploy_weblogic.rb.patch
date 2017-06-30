@@ -1,0 +1,21 @@
+diff --git a/lib/puppet/provider/pt_deploy_weblogic/deploy_weblogic.rb b/lib/puppet/provider/pt_deploy_weblogic/deploy_weblogic.rb
+index 1cf2962..18f1628 100755
+--- a/lib/puppet/provider/pt_deploy_weblogic/deploy_weblogic.rb
++++ b/lib/puppet/provider/pt_deploy_weblogic/deploy_weblogic.rb
+@@ -229,14 +229,14 @@ Puppet::Type.type(:pt_deploy_weblogic).provide :deploy_weblogic,
+             Puppet.debug('Oracle Home environment variable' + ENV['ORACLE_HOME'])
+ 
+             # get the patch number
+-            weblogic_patch_num = Dir.entries(weblogic_patch_dir).reject {|f| !File.directory?(f) || f.include?('.')}[0]
++            weblogic_patch_num = Dir.entries(weblogic_patch_dir).reject {|f| f.include?('.')}[0]
+             Puppet.debug('Installing WebLogic patch number ' + weblogic_patch_num)
+ 
+             patch_dir = "#{weblogic_patch_dir}/#{weblogic_patch_num}"
+             Puppet.debug("Installing Weblogic patch #{weblogic_patch_num} from  #{patch_dir}")
+ 
+             patch_apply_cmd = "#{cmd_prefix} cd #{patch_dir} && #{deploy_location}/OPatch/opatch " + \
+-              " apply -silent -jdk #{jdk_location}#{cmd_suffix}"
++              " apply -oh #{deploy_location} -silent -jdk #{jdk_location}#{cmd_suffix}"
+             Puppet.debug("Weblogic patch apply command #{patch_apply_cmd}")
+             Puppet::Util::Execution.execute(patch_apply_cmd, :failonfail => true)
+             Puppet.debug('Weblogic patch installation successfully')

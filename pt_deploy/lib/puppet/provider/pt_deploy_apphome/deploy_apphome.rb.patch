@@ -1,0 +1,44 @@
+diff --git a/lib/puppet/provider/pt_deploy_apphome/deploy_apphome.rb b/lib/puppet/provider/pt_deploy_apphome/deploy_apphome.rb
+index 8c0a845..8582ab7 100755
+--- a/lib/puppet/provider/pt_deploy_apphome/deploy_apphome.rb
++++ b/lib/puppet/provider/pt_deploy_apphome/deploy_apphome.rb
+@@ -164,6 +164,39 @@ Puppet::Type.type(:pt_deploy_apphome).provide :deploy_apphome,
+       end
+     end
+ 
++    # install patches if specified
++    patch_list = resource[:patch_list]
++    if ! patch_list.nil?
++      patch_list = [patch_list] unless patch_list.is_a? Array
++      patch_list.each do |patch|
++        Puppet.debug("Installing patch: #{patch} into #{ps_home}")
++        if Facter.value(:osfamily) == 'windows'
++          Puppet.debug(" Installing on Windows platform")
++          extract_zip_script = generate_windows_unzip_script(patch, ps_home)
++          system("powershell -File #{extract_zip_script}")
++          if $? == 0
++            Puppet.debug("Installation of application patch #{patch} successful")
++          else
++            raise Puppet::ExecutionFailure, "Installation of application patch #{patch} failed"
++          end
++        else
++          deploy_user = resource[:deploy_user]
++          deploy_group = resource[:deploy_user_group]
++
++          Puppet.debug(" Installing on Non Windows platform")
++          begin
++            extract_cmd('xzf', patch, '-C', ps_home)
++            change_ownership(deploy_user, deploy_group, ps_home)
++
++          rescue Puppet::ExecutionFailure => e
++            raise Puppet::Error, "Installation of application patch #{patch} failed: #{e.message}"
++          end
++        end
++      end 
++    else
++      Puppet.debug("No Application Patches specified")
++    end 
++
+     # install the visual studo dll for Windows
+     if Facter.value(:osfamily) == 'windows'
+       #perm_cmd = "icacls #{ps_home} /grant Administrators:(OI)(CI)F /T > NUL"

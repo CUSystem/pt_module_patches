@@ -1,0 +1,15 @@
+diff --git a/manifests/pt_system/users.pp b/manifests/pt_system/users.pp
+index d468adf..77f71c9 100755
+--- a/manifests/pt_system/users.pp
++++ b/manifests/pt_system/users.pp
+@@ -68,10 +68,6 @@ class pt_profile::pt_system::users (
+           if $::kernel == 'Linux' {
+             file { "${user_home}/.profile":
+               ensure   => $ensure,
+-            } ->
+-            # set the password expiry to immediate
+-            exec { "chage -d 0 ${user_name}":
+-              path     => [ "/usr/bin/" ],
+             }
+           }
+           if $::kernel == 'SunOS' {

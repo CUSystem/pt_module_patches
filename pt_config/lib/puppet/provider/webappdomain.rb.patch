@@ -1,0 +1,13 @@
+diff --git a/lib/puppet/provider/webappdomain.rb b/lib/puppet/provider/webappdomain.rb
+index bff6746..9031d08 100755
+--- a/lib/puppet/provider/webappdomain.rb
++++ b/lib/puppet/provider/webappdomain.rb
+@@ -130,7 +130,7 @@ class Puppet::Provider::WebAppDomain < Puppet::Provider
+ 
+   def pre_create
+     # make sure the  ps_cfg_home_dir is given
+-    if resource[:ps_cfg_home_dir].nil?
++    if resource[:webapp_dir].nil?
+       raise ArgumentError, "PS_CFG_HOME home directory needs to be " +
+                            "specified to create a WebServer domain"
+     end

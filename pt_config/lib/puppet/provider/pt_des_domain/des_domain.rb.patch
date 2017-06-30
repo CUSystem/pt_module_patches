@@ -1,0 +1,65 @@
+diff --git a/lib/puppet/provider/pt_des_domain/des_domain.rb b/lib/puppet/provider/pt_des_domain/des_domain.rb
+index 91e404e..1b0b19e 100755
+--- a/lib/puppet/provider/pt_des_domain/des_domain.rb
++++ b/lib/puppet/provider/pt_des_domain/des_domain.rb
+@@ -12,7 +12,7 @@
+ #  The information contained herein is subject to change without
+ #  notice and is not warranted to be error-free. If you find any
+ #  errors, please report them to us in writing.
+-#  
++#
+ #  Copyright (C) 1988, 2017, Oracle and/or its affiliates.
+ #  All Rights Reserved.
+ # ***************************************************************
+@@ -41,7 +41,7 @@ Puppet::Type.type(:pt_des_domain).provide :des_domain,
+       class_path_separator = ':'
+     end
+     # setup xalan.jar & xerces in setEnv.sh file in DES domain
+-    set_env_file = File.join(resource[:webap_dir], 'webserv',
++    set_env_file = File.join(resource[:webapp_dir], 'webserv',
+                                       resource[:domain_name], 'bin',
+                                       'setEnv' + script_suffix)
+     Puppet.debug("Updating DES domain env file #{set_env_file}")
+@@ -49,13 +49,13 @@ Puppet::Type.type(:pt_des_domain).provide :des_domain,
+     file_content_orig = File.read(set_env_file)
+     file_content_mod = file_content_orig.gsub(/psjoa.jar/, 'psjoa.jar' + \
+                        class_path_separator + \
+-                       '\${PS_HOME}\/webserv\/\${DOMAIN_NAME}\/lib\/xalan.jar' + \
++                       '${PS_HOME}/webserv/${DOMAIN_NAME}/lib/xalan.jar' + \
+                        class_path_separator + \
+-                       '\${PS_HOME}\/webserv\/\${DOMAIN_NAME}\/lib\/xercesImpl.jar')
++                       '${PS_HOME}/webserv/${DOMAIN_NAME}/lib/xercesImpl.jar')
+     File.open(set_env_file, "w") { |file| file << file_content_mod }
+ 
+     ojdbc_jar = 'ojdbc6.jar'
+-    wl_jdbc_file = File.join(resource[:webserver_settings]['webserver_dir'],
++    wl_jdbc_file = File.join('/opt/oracle/psft/pt/bea',
+                             'oracle_common', 'modules',
+                             'oracle.jdbc_12.1.0', ojdbc_jar)
+     des_app_dir = File.join(resource[:webapp_dir], 'webserv',
+@@ -65,13 +65,12 @@ Puppet::Type.type(:pt_des_domain).provide :des_domain,
+     FileUtils.cp(wl_jdbc_file, des_app_dir)
+ 
+     if Facter.value(:osfamily) == 'windows'
+-      appsrv_classes_dir = File.join(resource[:ps_app_home_dir], 'class')
++      appsrv_classes_dir = '/opt/oracle/psft/pt/ps_app_home/class'
+     else
+-      appsrv_classes_dir = File.join(resource[:ps_app_home_dir], 'appserv',
+-                                    'classes')
++      appsrv_classes_dir = '/opt/oracle/psft/pt/ps_app_home/appserv/classes'
+     end
+     Puppet.debug("Copying JDBC Driver from #{wl_jdbc_file} " + \
+-                 "into #{appserv_classes_dir}")
++                 "into #{appsrv_classes_dir}")
+     FileUtils.cp(wl_jdbc_file, appsrv_classes_dir)
+ 
+     # change the ownership of of the JDBC driver
+@@ -97,7 +96,7 @@ Puppet::Type.type(:pt_des_domain).provide :des_domain,
+     open(response_file_path,  'a') do |response_file|
+       response_file.puts('DB_TYPE=' + resource[:db_type].to_s)
+       response_file.puts('DB_SERVER_NAME=' + resource[:db_host])
+-      response_file.puts('DB_PORT=' + resource[:db_port])
++      response_file.puts('DB_PORT=' + resource[:db_port].to_s)
+       response_file.puts('DB_SERVER_INSTANCE=' + resource[:db_name])
+       response_file.puts('DB_USER=' + resource[:db_user])
+       response_file.puts('DB_PASSWORD=' + resource[:db_user_pwd])
