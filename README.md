@@ -1,6 +1,10 @@
 This repository is the home to patches created against Peopletools Puppet
 modules to correct issues found in our environment.
 
+These are all built against the 8.56 delivered modules. Likely they will
+not 'git apply' against the 8.55 modules due to additions from Oracle, but
+they are all simple to replicate with copy/paste.
+
 # File list
     ./README.md
 
