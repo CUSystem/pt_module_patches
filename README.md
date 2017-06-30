@@ -8,9 +8,11 @@ modules to correct issues found in our environment.
   ./pt_profile/manifests/pt_system/users.pp.patch
 
 ## pt_config
-  ./pt_config/lib/puppet/provider/pt_des_domain/des_domain.rb.patch
-  ./pt_config/lib/puppet/provider/webappdomain.rb.patch
-  ./pt_config/lib/puppet/type/pt_des_domain.rb.patch
+`
+./pt_config/lib/puppet/provider/pt_des_domain/des_domain.rb.patch
+./pt_config/lib/puppet/provider/webappdomain.rb.patch
+./pt_config/lib/puppet/type/pt_des_domain.rb.patch
+`
 
 ## pt_setup
   ./pt_setup/templates/linux_user_environment.erb.patch
