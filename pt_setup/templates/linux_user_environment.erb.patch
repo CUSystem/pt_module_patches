@@ -1,5 +1,5 @@
 diff --git a/templates/linux_user_environment.erb b/templates/linux_user_environment.erb
-index 1b290fd..37ed99f 100755
+index 1b290fd..748d7b8 100755
 --- a/templates/linux_user_environment.erb
 +++ b/templates/linux_user_environment.erb
 @@ -31,7 +31,7 @@ export PATH=.:$ORACLE_HOME/bin:$ORACLE_HOME/OPatch:$ORACLE_HOME/perl/bin:$PATH
@@ -11,3 +11,11 @@ index 1b290fd..37ed99f 100755
    export PATH=$TUXDIR/bin:$PATH
    export LD_LIBRARY_PATH=$TUXDIR/bin:$TUXDIR/lib:$LD_LIBRARY_PATH
  fi
+@@ -55,4 +55,7 @@ export PS_APP_HOME=<%= @ps_app_home_dir %>
+ <% end -%>
+ <% if @ps_cust_home_dir -%>
+ export PS_CUST_HOME=<%= @ps_cust_home_dir %>
++export PS_FILEDIR=<%= @ps_cust_home_dir %>/files
+ <% end -%>
++export PS_CLASSPATH=$PS_CUST_HOME/appserv/classes:$PS_APP_HOME/appserv/classes:$PS_HOME/appserv/classes
++export PS_SSHKEYPATH=~
